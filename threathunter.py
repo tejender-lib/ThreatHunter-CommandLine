@@ -52,8 +52,29 @@ def get_domain_report(resource, api_key):
     except Exception as e:
         print(f"An error occurred: {e}")
 
+def print_threathunter_banner():
+    print("\033[1;37;40m" + ".S    S.    .S       S.    .S_sSSs    sdSS_SSSSSSbs    sSSs   .S_sSSs     " + "\033[0m")
+    print("\033[1;37;40m" + ".SS    SS.  .SS       SS.  .SS~YS%%b   YSSS~S%SSSSSP   d%%SP  .SS~YS%%b   " + "\033[0m")
+    print("\033[1;37;40m" + "S%S    S%S  S%S       S%S  S%S   `S%b       S%S       d%S'    S%S   `S%b  " + "\033[0m")
+    print("\033[1;37;40m" + "S%S    S%S  S%S       S%S  S%S    S%S       S%S       S%S     S%S    S%S  " + "\033[0m")
+    print("\033[1;37;40m" + "S%S SSSS%S  S&S       S&S  S%S    S&S       S&S       S&S     S%S    d*S  " + "\033[0m")
+    print("\033[1;37;40m" + "S&S  SSS&S  S&S       S&S  S&S    S&S       S&S       S&S_Ss  S&S   .S*S  " + "\033[0m")
+    print("\033[1;37;40m" + "S&S    S&S  S&S       S&S  S&S    S&S       S&S       S&S~SP  S&S_sdSSS   " + "\033[0m")
+    print("\033[1;37;40m" + "S&S    S&S  S&S       S&S  S&S    S&S       S&S       S&S     S&S~YSY%b   " + "\033[0m")
+    print("\033[1;37;40m" + "S*S    S*S  S*b       d*S  S*S    S*S       S*S       S*b     S*S   `S%b  " + "\033[0m")
+    print("\033[1;37;40m" + "S*S    S*S  S*S.     .S*S  S*S    S*S       S*S       S*S.    S*S    S%S  " + "\033[0m")
+    print("\033[1;37;40m" + "S*S    S*S   SSSbs_sdSSS   S*S    S*S       S*S        SSSbs  S*S    S&S  " + "\033[0m")
+    print("\033[1;37;40m" + "SSS    S*S    YSSP~YSSY    S*S    SSS       S*S         YSSP  S*S    SSS  " + "\033[0m")
+    print("\033[1;37;40m" + "       SP                  SP               SP                SP          " + "\033[0m")
+    print("\033[1;37;40m" + "       Y                   Y                Y                 Y           " + "\033[0m")
+    print("\033[1;37;40m" + "                             ThreatHunter                                 " + "\033[0m\n")
+                                                                          
+
+print_threathunter_banner()
+
+
 def scan_input(api_key):
-    choice = input("\n[-] Tool Created by tejenderthakur (tejender-lib)\n\n[::] Select An Scan\n\n[::][01] To scan a file: \n[::][02] To scan single domain:\n\n[-]Select an option:")
+    choice = input("\n[-] Tool Created by tejenderthakur (tejender-lib)\n\n[::] Select An Scan\n\n[::][01] To scan a file: \n[::][02] To scan single domain: \n[::][03] To scan multiple domains:\n\n[-]Select an option:")
  
     if choice == '01':
         file_path = input("\nEnter the path to the file or folder to scan: ")
@@ -130,6 +151,36 @@ def scan_input(api_key):
                 print("Failed to retrieve scan report.")
         else:
             print("Failed to submit domain for scanning.")
+    elif choice == '03':
+        urls_input = input("\nEnter the URLs (separated by comma): ")
+        urls = [url.strip() for url in urls_input.split(',')]
+        for url in urls:
+            if not is_valid_domain(url):
+                print(f"Invalid URL: {url}")
+                continue
+            print(f"Scanning URL: {url}")
+            scan_result = scan_domain(url, api_key)
+            if scan_result and 'resource' in scan_result:
+                resource = scan_result['resource']
+                print(f"URL submitted for scanning. Resource: {resource}")
+
+                report = get_domain_report(resource, api_key)
+                if report:
+                    if 'positives' in report:
+                        positives = report['positives']
+                        total = report['total']
+                        if positives > 0:
+                            print(f"Scan results: {positives}/{total} scanners detected the URL as malicious.")
+                        else:
+                            print("No malicious indicators found. The URL is clean.")
+                    else:
+                        print("No malicious indicators found. The URL is clean.")
+                else:
+                    print("Failed to retrieve scan report.")
+            else:
+                print(f"Failed to submit URL for scanning: {url}")
+    else:
+        print("Invalid choice.")
 
 def main():
     api_key = input("Enter your VirusTotal API key: ")
