@@ -53,3 +53,21 @@ Run the ThreatHunter-CommandLine tool with the desired scan option:
 
 ```bash
 python threathunter.py
+
+Contributing
+Contributions are welcome! If you'd like to contribute to the project, please follow these guidelines:
+
+Fork the repository and create a new branch for your feature or bug fix.
+Make your changes and ensure that they adhere to the project's coding standards and guidelines.
+Write tests to cover your changes and ensure that existing tests pass.
+Submit a pull request with a detailed description of your changes and their impact.
+Advantages and Disadvantages
+Advantages:
+Provides a simple and intuitive interface for scanning files and domains.
+Integrates with the VirusTotal API to leverage its extensive malware intelligence database.
+Supports dynamic and static analysis techniques for malware analysis and reverse-engineering.
+Disadvantages:
+Relies on the availability and reliability of the VirusTotal API, which may be subject to usage limits and rate limiting.
+Limited to the capabilities and coverage of the VirusTotal platform, which may not detect all malware samples or malicious indicators.
+License
+MIT License
